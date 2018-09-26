@@ -66,7 +66,7 @@ class Form10k(object):
             with open(index_path,'r') as fin:
                 reader = csv.reader(fin,delimiter=',',quotechar='\"',quoting=csv.QUOTE_ALL)
                 for url_idx, row in enumerate(reader,1):
-                    form_type, company_name, cik, date_filed, filename = row
+                    form_type, company_name, cik, date_filed, filename, symbol = row
                     url = os.path.join(SEC_GOV_URL,filename).replace("\\","/")
                     yield (url_idx, url)
 
@@ -108,7 +108,7 @@ class Form10k(object):
         pool.map( download_job,
                     iter_path_generator(index_path) )
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser("Download Edgar Form 10k according to index")
     parser.add_argument('--index_path',type=str)
     parser.add_argument('--txt_dir',type=str,default='./data/txt')
@@ -119,3 +119,7 @@ if __name__ == "__main__":
     # Download 10k forms, parse html and preprocess text
     form10k = Form10k()
     form10k.download(index_path=index_path, txt_dir=args.txt_dir)
+
+
+if __name__ == "__main__":
+    main()

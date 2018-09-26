@@ -22,7 +22,7 @@ class FormIndex(object):
             os.makedirs(index_dir)
 
         # Retrieve raw index files
-        for year, qtr in itertools.product(range(args.year_start,args.year_end+1),range(1,5)):
+        for year, qtr in itertools.product(range(year_start, year_end+1),range(1,5)):
             form_idx = "year{}_qtr{}.index".format(year,qtr)
             form_idx_path = os.path.join(self.index_dir,form_idx)
             self.download(form_idx_path, year, qtr)
@@ -85,16 +85,20 @@ class FormIndex(object):
             for rec in self.formrecords:
                 writer.writerow( tuple(rec) )
 
-if __name__ == "__main__":
+
+def main():
     parser = argparse.ArgumentParser("Download EDGAR form 10k index")
-    parser.add_argument('--year_start',type=int,default=2014)
-    parser.add_argument('--year_end',type=int,default=2016)
-    parser.add_argument('--index_dir',type=str,default='./data/index')
-    parser.add_argument('--out_file',type=str,default="")
+    parser.add_argument('--year_start', type=int, default=2014)
+    parser.add_argument('--year_end', type=int, default=2016)
+    parser.add_argument('--index_dir', type=str, default='./data/index')
+    parser.add_argument('--out_file', type=str, default="")
     args = parser.parse_args()
 
-    index_path = ( "year{}-{}.10k.index".format(args.year_start,args.year_end) if not args.out_file else args.out_file )
+    index_path = ("year{}-{}.10k.index".format(args.year_start, args.year_end) if not args.out_file else args.out_file)
 
     formindex = FormIndex()
     formindex.retrieve(index_dir=args.index_dir, year_start=args.year_start, year_end=args.year_end)
     formindex.save(index_path=index_path)
+
+if __name__ == "__main__":
+    main()
