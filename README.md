@@ -4,6 +4,8 @@ Here are the scripts I used to download then extract the MDA section ofForm 10k 
 
 ## Workflow
 
+
+
 1. Download the index file of form 10k filings, raw index files will be saved to './data/index', and create an aggregated index file './year2016-2016.10k.index'
 ```
 python formindex.py --year_start 2016 --year_end 2016 --index_dir ./data/index --out_file ./year2016-2016.10k.index
